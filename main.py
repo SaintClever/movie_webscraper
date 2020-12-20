@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-import requests, pandas, re
+import requests, pandas
 
 
 
@@ -35,7 +35,7 @@ for page in pages:
   
 # print(page_list[:int(len(page_list) / 2)])
 pages_list = page_list[:int(len(page_list) / 2)]
-print(pages_list)
+# print(pages_list)
 
 
 
@@ -67,8 +67,12 @@ for poster in posters:
 
 '''Create HTML and CSV'''
 try:
-  pages_df = pandas.Series(pages_list, index=['Poster', 'Title', 'Movie / TV', 'Year', 'Duration'])
-  # print(pages_df)
+  page_number = []
+  for i in range(len(pages_list)):
+    # print(pages_list[i]['Pages'])
+    page_number.append('Page ' + pages_list[i]['Pages'])
+
+  pages_df = pandas.Series(page_number, index=['Poster', 'Title', 'Movie / TV', 'Year', 'Duration'])
   movies_df = pandas.DataFrame(movies_list)
   result = movies_df.append(pages_df, ignore_index=True)
   result.to_html('movies.html', escape=False)
