@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-import requests, pandas
+import requests, pandas, re
 
 
 
@@ -9,7 +9,6 @@ url = requests.get('https://www2.musichq.net/search/' + user_input)
 url_content = url.content
 parse_content = BeautifulSoup(url_content, 'html.parser')
 # print(parse_content)
-
 
 
 
@@ -23,14 +22,20 @@ pages = parse_content.find_all('a', {'class': 'page-link'})
 page_list = []
 for page in pages:
   pagination = {}
-  pagination['Pages'] = page
-  # print(page)
+  # print(page.text)
+  if page.text == '→':
+    pagination['Pages'] = '<a class="page-link" href="https://www2.musichq.net/search/love?page=4" title="Page 4" target="_blank">4</a>'
+  elif page.text == '»':
+    pagination['Pages'] = '<a class="page-link" href="https://www2.musichq.net/search/love?page=5" title="Page 5" target="_blank">5</a>'
+  else:
+    pagination['Pages'] = '<a class="page-link" href="https://www2.musichq.net/search/love?page=' + page.text + '" title="Page ' + page.text + '" target="_blank">' + page.text + '</a>'
+    # print(pagination['Pages'])
 
   page_list.append(pagination)
   
-print(page_list[:int(len(page_list) / 2)])
+# print(page_list[:int(len(page_list) / 2)])
 pages_list = page_list[:int(len(page_list) / 2)]
-
+print(pages_list)
 
 
 
@@ -60,7 +65,6 @@ for poster in posters:
 
 
 
-
 '''Create HTML and CSV'''
 try:
   pages_df = pandas.Series(pages_list, index=['Poster', 'Title', 'Movie / TV', 'Year', 'Duration'])
@@ -68,6 +72,7 @@ try:
   movies_df = pandas.DataFrame(movies_list)
   result = movies_df.append(pages_df, ignore_index=True)
   result.to_html('movies.html', escape=False)
+  result.to_csv('movies.csv')
 except:
   # print(movies_list)
   movies_df = pandas.DataFrame(movies_list)
