@@ -77,8 +77,10 @@ try:
   result = movies_df.append(pages_df, ignore_index=True)
   result.to_html('movies.html', escape=False)
   result.to_csv('movies.csv')
+  print('HTML and CSV created')
 except:
   # print(movies_list)
   movies_df = pandas.DataFrame(movies_list)
   movies_df.to_html('movies.html', escape=False)
   movies_df.to_csv('movies.csv')
+  print('HTML and CSV created')
