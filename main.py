@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-import requests, pandas
+import requests, pandas, subprocess
 
 
 
@@ -48,7 +48,7 @@ movies_list = []
 for poster in posters:
   data = {}
 
-  data['Poster'] = '<img src="' + poster.find_all('img', {'class':'film-poster-img'})[0]['data-src'] + '" width="50%">'
+  data['Poster'] = '<a href="https://www2.musichq.net/' + poster.find_all('a')[0]['href'] + '" target="_blank"><img src="' + poster.find_all('img', {'class':'film-poster-img'})[0]['data-src'] + '" width="50%"></a>'
   
   title = poster.find_all('h2', {'class':'film-name'})[0].text.strip()
   data['Title'] = '<a href="https://www2.musichq.net/' + poster.find_all('a')[0]['href'] + '" target="_blank">' + title + '</a>'
@@ -86,4 +86,12 @@ except:
   movies_df.to_html('movies.html', escape=False)
   movies_df.to_csv('movies.csv')
   print('HTML and CSV created\n')
-  
+
+
+'''Open files or pass'''
+user_input = input('Preview files [y/n]: ').lower()
+
+if user_input == 'y':
+  file_types = ['html', 'csv']
+  for file_type in file_types:
+    subprocess.run(['open', 'movies.' + file_type])
