@@ -71,8 +71,10 @@ try:
   for i in range(len(pages_list)):
     # print(pages_list[i]['Pages'])
     page_number.append(pages_list[i]['Pages'])
-
-  pages_df = pandas.Series([], page_number, index=['Poster', 'Title', 'Movie / TV', 'Year', 'Duration'])
+    
+  # print(page_number) if something is present within our list [] display additional pages
+  if page_number:
+    pages_df = pandas.Series(page_number, index=['Poster', 'Title', 'Movie / TV', 'Year', 'Duration'])
   movies_df = pandas.DataFrame(movies_list)
   result = movies_df.append(pages_df, ignore_index=True)
   result.to_html('movies.html', escape=False)
