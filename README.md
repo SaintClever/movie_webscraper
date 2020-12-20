@@ -5,4 +5,4 @@
 - Movie request: 'your movie title'
 - Preview files [y/n]: 'your answer here'
 
-![movie_wepscraper]('assets/movie_wepscraper.gif')
+![movie_webscraper]('assets/movie_webscraper.gif')
