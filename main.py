@@ -24,11 +24,11 @@ for page in pages:
   pagination = {}
   # print(page.text)
   if page.text == '→':
-    pagination['Pages'] = '<a class="page-link" href="https://www2.musichq.net/search/love?page=4" title="Page 4" target="_blank">4</a>'
+    pagination['Pages'] = '<a class="page-link" href="https://www2.musichq.net/search/love?page=4" title="Page 4" target="_blank">Page 4</a>'
   elif page.text == '»':
-    pagination['Pages'] = '<a class="page-link" href="https://www2.musichq.net/search/love?page=5" title="Page 5" target="_blank">5</a>'
+    pagination['Pages'] = '<a class="page-link" href="https://www2.musichq.net/search/love?page=5" title="Page 5" target="_blank">Page 5</a>'
   else:
-    pagination['Pages'] = '<a class="page-link" href="https://www2.musichq.net/search/love?page=' + page.text + '" title="Page ' + page.text + '" target="_blank">' + page.text + '</a>'
+    pagination['Pages'] = '<a class="page-link" href="https://www2.musichq.net/search/love?page=' + page.text + '" title="Page ' + page.text + '" target="_blank">Page ' + page.text + '</a>'
     # print(pagination['Pages'])
 
   page_list.append(pagination)
@@ -70,17 +70,17 @@ try:
   page_number = []
   for i in range(len(pages_list)):
     # print(pages_list[i]['Pages'])
-    page_number.append('Page ' + pages_list[i]['Pages'])
+    page_number.append(pages_list[i]['Pages'])
 
-  pages_df = pandas.Series(page_number, index=['Poster', 'Title', 'Movie / TV', 'Year', 'Duration'])
+  pages_df = pandas.Series([], page_number, index=['Poster', 'Title', 'Movie / TV', 'Year', 'Duration'])
   movies_df = pandas.DataFrame(movies_list)
   result = movies_df.append(pages_df, ignore_index=True)
   result.to_html('movies.html', escape=False)
   result.to_csv('movies.csv')
-  print('HTML and CSV created')
+  print('HTML and CSV created\n')
 except:
   # print(movies_list)
   movies_df = pandas.DataFrame(movies_list)
   movies_df.to_html('movies.html', escape=False)
   movies_df.to_csv('movies.csv')
-  print('HTML and CSV created')
+  print('HTML and CSV created. Similar titles found')
