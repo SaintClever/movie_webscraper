@@ -88,6 +88,7 @@ except:
   print('HTML and CSV created\n')
 
 
+
 '''Open files or pass'''
 user_input = input('Preview files [y/n]: ').lower()
 
